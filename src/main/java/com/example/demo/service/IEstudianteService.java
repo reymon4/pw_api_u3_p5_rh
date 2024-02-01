@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import com.example.demo.repository.modelo.Estudiante;
 
 public interface IEstudianteService {
@@ -10,6 +12,8 @@ public interface IEstudianteService {
 	public void partialUpdate(String lastName, String name, Integer id);
 	public Estudiante search(Integer id);
 	public void delete(Integer id);
+	
+	public List<Estudiante> searchAll(String gender);
 	
 
 }

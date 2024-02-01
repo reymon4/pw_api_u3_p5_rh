@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import com.example.demo.repository.modelo.Estudiante;
 
@@ -12,6 +12,9 @@ public interface IEstudianteRepository {
 	public void partialUpdate(String lastName, String name, Integer id);
 	public Estudiante select(Integer id);
 	public void delete(Integer id);
+	
+	
+	public List<Estudiante> selectAll(String gender);
 	
 
 }
