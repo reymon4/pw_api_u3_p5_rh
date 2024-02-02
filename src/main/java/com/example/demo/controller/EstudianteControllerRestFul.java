@@ -29,31 +29,32 @@ public class EstudianteControllerRestFul {
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes
 	// Capacidades
 	
-	@GetMapping(path = "/search/{id}/{edad}")
+	@GetMapping(path = "/{id}")
 	// Se debe colocar el mismo nombre del path variable en el método
 	//El Path variable se usa cuando queremos obtener un recurso específico
 	//PARA USAR VARIOS PATH VARIABLE
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/search/{id}/{gender}
-	public Estudiante search(@PathVariable Integer id, @PathVariable Integer edad) {
+	public Estudiante search(@PathVariable() Integer id) {
 		return this.estudianteService.search(id);
 	}
 
-	@PostMapping(path = "/save")
+	@PostMapping
 	public void save(@RequestBody Estudiante estudiante) {
 		this.estudianteService.save(estudiante);
 	}
 
-	@PutMapping(path = "/update")
-	public void update(@RequestBody Estudiante estudiante) {
+	@PutMapping(path = "/{id}")
+	public void update(@RequestBody Estudiante estudiante,@PathVariable Integer id) {
+		estudiante.setId(id);
 		this.estudianteService.update(estudiante);
 	}
-
-	@PatchMapping(path = "/partialUpdate")
-	public void partialUpdate(@RequestBody Estudiante estudiante) {
-		this.estudianteService.partialUpdate(estudiante.getLastName(), estudiante.getName(), estudiante.getId());
+	//Este se realiza mediante un identificador único
+	@PatchMapping(path = "/{id}")
+	public void partialUpdate(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
+		this.estudianteService.partialUpdate(estudiante.getLastName(), estudiante.getName(),id);
 	}
 
-	@DeleteMapping(path = "/delete/{id}")
+	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable Integer id) {
 		this.estudianteService.delete(id);
 	}
@@ -61,9 +62,9 @@ public class EstudianteControllerRestFul {
 	//Cuando deseamos obtener una lista, filtrándolos según la necesidad usamos RequestParam
 	
 	//PARA USAR VARIOS REQUESTPARAM
-	// http://localhost:8080/API/v1.0/Matricula/estudiantes/searchAll?gender=M&edad=18
-	@GetMapping(path = "/searchAll")
-	public List<Estudiante> searchAll(@RequestParam String gender, @RequestParam String edad) {
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/{cedula}GET
+	@GetMapping
+	public List<Estudiante> searchAll(@RequestParam(defaultValue = "M",required=false) String gender) {
 		return this.estudianteService.searchAll(gender);
 	}
 }
