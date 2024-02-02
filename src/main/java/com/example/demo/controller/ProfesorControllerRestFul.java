@@ -27,35 +27,35 @@ public class ProfesorControllerRestFul {
 	
 	// http://localhost:8080/API/v1.0/Matricula/profesores
 	
-	@GetMapping(path = "/search/{id}/{edad}")
-	
-	public Profesor search(@PathVariable Integer id, @PathVariable Integer edad) {
+	@GetMapping(path = "/{id}")
+	public Profesor search(@PathVariable Integer id) {
 		return this.profesorService.search(id);
 	}
-	@PostMapping(path = "/save")
+	@PostMapping
 	public void save(@RequestBody Profesor profesor) {
 		this.profesorService.save(profesor);
 	}
 
-	@PutMapping(path = "/update")
-	public void update(@RequestBody Profesor profesor) {
+	@PutMapping(path = "/{id}")
+	public void update(@RequestBody Profesor profesor, @PathVariable Integer id) {
+		profesor.setId(id);
 		this.profesorService.update(profesor);
 	}
 
-	@PatchMapping(path = "/partialUpdate")
-	public void partialUpdate(@RequestBody Profesor profesor) {
-		this.profesorService.partialUpdate(profesor.getLastName(), profesor.getName(), profesor.getId(), profesor.getEmail());
+	@PatchMapping(path = "/{id}")
+	public void partialUpdate(@RequestBody Profesor profesor,  @PathVariable Integer id) {
+		this.profesorService.partialUpdate(profesor.getLastName(), profesor.getName(), id, profesor.getEmail());
 	}
 
-	@DeleteMapping(path = "/delete/{id}")
+	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable Integer id) {
 		this.profesorService.delete(id);
 	}
 	
 	
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/searchAll?gender=M&edad=18
-	@GetMapping(path = "/searchAll")
-	public List<Profesor> searchAll(@RequestParam String gender, @RequestParam String edad) {
+	@GetMapping
+	public List<Profesor> searchAll(@RequestParam(defaultValue = "M",required=false)  String gender) {
 		return this.profesorService.searchAll(gender);
 	}
 	
