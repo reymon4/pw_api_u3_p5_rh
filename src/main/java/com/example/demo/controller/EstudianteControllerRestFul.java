@@ -3,6 +3,11 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,43 +33,58 @@ public class EstudianteControllerRestFul {
 
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes
 	// Capacidades
-	
-	@GetMapping(path = "/{id}")
+
 	// Se debe colocar el mismo nombre del path variable en el método
-	//El Path variable se usa cuando queremos obtener un recurso específico
-	//PARA USAR VARIOS PATH VARIABLE
+	// El Path variable se usa cuando queremos obtener un recurso específico
+	// PARA USAR VARIOS PATH VARIABLE
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/search/{id}/{gender}
-	public Estudiante search(@PathVariable() Integer id) {
-		return this.estudianteService.search(id);
+	// PARA UN PRODCUCES DE TIPO HTML, DEBO AGREGAR LA DEPENDENCIA CORRESPONDIENTE
+	// AL PROYECTO
+
+	@GetMapping(path = "/{id}", produces = "application/json")
+	public ResponseEntity<Estudiante> search(@PathVariable() Integer id) {
+		// 240: Estudiante resource successfully found !
+		// También puedo enviar códigos estándar
+		// return
+		// ResponseEntity.status(HttpStatus.OK).body(this.estudianteService.search(id));
+		return ResponseEntity.status(240).body(this.estudianteService.search(id));
 	}
 
-	@PostMapping
+	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void save(@RequestBody Estudiante estudiante) {
 		this.estudianteService.save(estudiante);
 	}
 
-	@PutMapping(path = "/{id}")
-	public void update(@RequestBody Estudiante estudiante,@PathVariable Integer id) {
+	@PutMapping(path = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void update(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
 		this.estudianteService.update(estudiante);
 	}
-	//Este se realiza mediante un identificador único
-	@PatchMapping(path = "/{id}")
+
+	// Este se realiza mediante un identificador único
+	@PatchMapping(path = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void partialUpdate(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
-		this.estudianteService.partialUpdate(estudiante.getLastName(), estudiante.getName(),id);
+		this.estudianteService.partialUpdate(estudiante.getLastName(), estudiante.getName(), id);
 	}
 
-	@DeleteMapping(path = "/{id}")
+	@DeleteMapping(path = "/{id}", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void delete(@PathVariable Integer id) {
 		this.estudianteService.delete(id);
 	}
-	
-	//Cuando deseamos obtener una lista, filtrándolos según la necesidad usamos RequestParam
-	
-	//PARA USAR VARIOS REQUESTPARAM
+
+	// Cuando deseamos obtener una lista, filtrándolos según la necesidad usamos
+	// RequestParam
+
+	// PARA USAR VARIOS REQUESTPARAM
 	// http://localhost:8080/API/v1.0/Matricula/estudiantes/{cedula}GET
-	@GetMapping
-	public List<Estudiante> searchAll(@RequestParam(defaultValue = "M",required=false) String gender) {
-		return this.estudianteService.searchAll(gender);
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Estudiante>> searchAll(
+			@RequestParam(defaultValue = "M", required = false) String gender) {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("242 message", "Lista consultada de manera satisfactoria!");
+		headers.add("info message", "El sistema va a estar en mantenimiento el finde!");
+		// Primero va el body(objeto), cabecera y código
+		return new ResponseEntity<>(this.estudianteService.searchAll(gender), headers, 242);
 	}
 }
