@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repository.IEstudianteRepository;
 import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.service.to.EstudianteTO;
+import com.example.demo.service.to.LightEstudianteTO;
 
 @Service
 public class EstudianteServiceImpl implements IEstudianteService {
@@ -72,5 +73,25 @@ public class EstudianteServiceImpl implements IEstudianteService {
 		estudianteTO.setBirthdate(estudiante.getBirthdate());
 		;
 		return estudianteTO;
+	}
+
+	@Override
+	public EstudianteTO searchTO(Integer id) {
+		// TODO Auto-generated method stub
+		return this.convert(this.estudianteRepository.select(id));
+	}
+
+	@Override
+	public LightEstudianteTO searchLightTO(Integer id) {
+		// TODO Auto-generated method stub
+		return this.convertLightTO(this.estudianteRepository.select(id));
+	}
+
+	private LightEstudianteTO convertLightTO(Estudiante estudiante) {
+		LightEstudianteTO lightEstudianteTO = new LightEstudianteTO();
+		lightEstudianteTO.setName(estudiante.getName());
+		;
+
+		return lightEstudianteTO;
 	}
 }

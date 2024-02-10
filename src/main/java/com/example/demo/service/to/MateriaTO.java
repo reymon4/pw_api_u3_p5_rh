@@ -12,7 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-public class MateriaTO extends RepresentationModel<MateriaTO> implements Serializable{
+public class MateriaTO implements Serializable{
 	/**
 	 * 
 	 */

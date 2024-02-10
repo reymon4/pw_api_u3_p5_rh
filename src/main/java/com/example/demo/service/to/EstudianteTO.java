@@ -7,16 +7,16 @@ import org.springframework.hateoas.RepresentationModel;
 
 import com.example.demo.repository.modelo.Estudiante;
 //Cuando el objeto va a manejar Hypermedia, se debe extender la clase de RepresentationModel
-
+//solo ponemos cuando es listas
 public class EstudianteTO extends RepresentationModel<EstudianteTO> implements Serializable{
 
 	
-
 	/**
 	 * 
 	 */
 	//Con esto le damos un ID al objeto que se esta serializando 
 	private static final long serialVersionUID = 1L;
+	
 	
 	private Integer id;
 

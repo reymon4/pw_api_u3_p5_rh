@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.service.to.EstudianteTO;
+import com.example.demo.service.to.LightEstudianteTO;
 
 public interface IEstudianteService {
 	
@@ -18,5 +19,7 @@ public interface IEstudianteService {
 	
 	
 	public List<EstudianteTO> searchAllTO();
-
+	public EstudianteTO searchTO(Integer id);
+	
+	public LightEstudianteTO searchLightTO(Integer id);	
 }

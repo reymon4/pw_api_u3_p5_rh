@@ -1,9 +1,12 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +36,7 @@ public class EstudianteControllerRestFul {
 
 	@Autowired
 	private IEstudianteService estudianteService;
-	
+
 	@Autowired
 	private IMateriaService iMateriaService;
 
@@ -48,12 +51,19 @@ public class EstudianteControllerRestFul {
 	// AL PROYECTO
 
 	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<Estudiante> search(@PathVariable() Integer id) {
+	public ResponseEntity<EstudianteTO> search(@PathVariable() Integer id) {
 		// 240: Estudiante resource successfully found !
 		// También puedo enviar códigos estándar
 		// return
 		// ResponseEntity.status(HttpStatus.OK).body(this.estudianteService.search(id));
-		return ResponseEntity.status(240).body(this.estudianteService.search(id));
+		EstudianteTO estu =this.estudianteService.searchTO(id);
+		Link link = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(estu.getId()))
+				.withRel("materias");
+		Link link2 = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(estu.getId()))
+				.withSelfRel();
+		estu.add(link);
+		estu.add(link2);
+		return ResponseEntity.status(240).body(estu);
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -97,16 +107,21 @@ public class EstudianteControllerRestFul {
 	/// HATEOAS//////
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EstudianteTO>> searchAllHATEOAS() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("242 message", "Lista consultada de manera satisfactoria!");
-		headers.add("info message", "El sistema va a estar en mantenimiento el finde!");
-		// Primero va el body(objeto), cabecera y código
-		return ResponseEntity.status(HttpStatus.OK).body(this.estudianteService.searchAllTO());
+		List<EstudianteTO> list = this.estudianteService.searchAllTO();
+		for (EstudianteTO est : list) {
+			// Dentro del methoOn, ponemos el nombre de la clase que queremos que consuma la
+			// capacidad
+			// No necesariamente debe ser la misma clase
+			Link link = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(est.getId()))
+					.withRel("materias");
+			est.add(link);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
-	//http://localhost:8080/API/v1.0/Matricula/estudiantes/1/materias
-	
-	@GetMapping(path="/{id}/materias",produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<MateriaTO>> searchMateriasForId(@PathVariable Integer id){
+	// http://localhost:8080/API/v1.0/Matricula/estudiantes/1/materias GET
+
+	@GetMapping(path = "/{id}/materias", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MateriaTO>> searchMateriasForId(@PathVariable Integer id) {
 		List<MateriaTO> lista = this.iMateriaService.searchForStudentId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(lista);
 	}
