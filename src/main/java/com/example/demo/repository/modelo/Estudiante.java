@@ -40,6 +40,17 @@ public class Estudiante {
 	private String gender;
 	@Column(name = "estu_birthdate")
 	private LocalDateTime birthdate;
+	//Tarea10
+	@Column(name = "estu_email")
+	private String email;
+	@Column(name = "estu_phone_number")
+	private String phoneNumber;
+	@Column(name = "estu_address")
+	private String address;
+	@Column(name = "estu_school")
+	private String school;
+	@Column(name = "estu_program")
+	private String program;
 
 	@OneToMany(mappedBy="estudiante")
 	private List<Materia> materias;
@@ -94,6 +105,46 @@ public class Estudiante {
 
 	public void setMaterias(List<Materia> materias) {
 		this.materias = materias;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
+		this.program = program;
 	}
 
 	

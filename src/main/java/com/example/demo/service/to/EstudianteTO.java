@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.example.demo.repository.modelo.Estudiante;
+
+import jakarta.persistence.Column;
 //Cuando el objeto va a manejar Hypermedia, se debe extender la clase de RepresentationModel
 //solo ponemos cuando es listas
 public class EstudianteTO extends RepresentationModel<EstudianteTO> implements Serializable{
@@ -27,6 +29,17 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	private String gender;
 
 	private LocalDateTime birthdate;
+	
+
+	private String email;
+	
+	private String phoneNumber;
+	
+	private String address;
+
+	private String school;
+
+	private String program;
 
 	// Set y Get
 	public Integer getId() {
@@ -68,5 +81,46 @@ public class EstudianteTO extends RepresentationModel<EstudianteTO> implements S
 	public void setBirthdate(LocalDateTime birthdate) {
 		this.birthdate = birthdate;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getProgram() {
+		return program;
+	}
+
+	public void setProgram(String program) {
+		this.program = program;
+	}
+	
 
 }

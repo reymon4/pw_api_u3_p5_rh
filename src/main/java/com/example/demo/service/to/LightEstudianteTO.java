@@ -2,7 +2,9 @@ package com.example.demo.service.to;
 
 import java.io.Serializable;
 
-public class LightEstudianteTO implements Serializable{
+import org.springframework.hateoas.RepresentationModel;
+
+public class LightEstudianteTO  extends RepresentationModel<LightEstudianteTO>implements Serializable{
 	/**
 	 * 
 	 */
@@ -12,6 +14,8 @@ public class LightEstudianteTO implements Serializable{
 	private Integer id;
 
 	private String name;
+	
+	private String school;
 	
 	//getters and setters
 
@@ -29,6 +33,14 @@ public class LightEstudianteTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
 	}
 	
 	

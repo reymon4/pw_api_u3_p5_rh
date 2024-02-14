@@ -22,4 +22,5 @@ public interface IEstudianteService {
 	public EstudianteTO searchTO(Integer id);
 	
 	public LightEstudianteTO searchLightTO(Integer id);	
+	public List<LightEstudianteTO> searchAllLightTO();
 }

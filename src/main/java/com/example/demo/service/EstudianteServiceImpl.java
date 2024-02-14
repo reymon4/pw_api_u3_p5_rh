@@ -66,11 +66,15 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	private EstudianteTO convert(Estudiante estudiante) {
 		EstudianteTO estudianteTO = new EstudianteTO();
 		estudianteTO.setLastName(estudiante.getLastName());
-		;
 		estudianteTO.setName(estudiante.getName());
 		estudianteTO.setGender(estudiante.getGender());
 		estudianteTO.setId(estudiante.getId());
 		estudianteTO.setBirthdate(estudiante.getBirthdate());
+		estudianteTO.setAddress(estudiante.getAddress());
+		estudianteTO.setEmail(estudiante.getEmail());
+		estudianteTO.setPhoneNumber(estudiante.getPhoneNumber());
+		estudianteTO.setProgram(estudiante.getProgram());
+		estudianteTO.setSchool(estudiante.getSchool());
 		;
 		return estudianteTO;
 	}
@@ -82,16 +86,29 @@ public class EstudianteServiceImpl implements IEstudianteService {
 	}
 
 	@Override
-	public LightEstudianteTO searchLightTO(Integer id) {
+	public List<LightEstudianteTO> searchAllLightTO() {
 		// TODO Auto-generated method stub
-		return this.convertLightTO(this.estudianteRepository.select(id));
+		List<Estudiante> list = this.estudianteRepository.selectAll("M");
+		List<LightEstudianteTO> listTO = new ArrayList<>();
+		for (Estudiante est : list) {
+			listTO.add(this.convertLightTO(est));
+		}
+		return listTO;
 	}
 
 	private LightEstudianteTO convertLightTO(Estudiante estudiante) {
 		LightEstudianteTO lightEstudianteTO = new LightEstudianteTO();
 		lightEstudianteTO.setName(estudiante.getName());
+		lightEstudianteTO.setId(estudiante.getId());
+		lightEstudianteTO.setSchool(estudiante.getSchool());
 		;
 
 		return lightEstudianteTO;
+	}
+
+	@Override
+	public LightEstudianteTO searchLightTO(Integer id) {
+		// TODO Auto-generated method stub
+		return this.convertLightTO(this.estudianteRepository.select(id));
 	}
 }

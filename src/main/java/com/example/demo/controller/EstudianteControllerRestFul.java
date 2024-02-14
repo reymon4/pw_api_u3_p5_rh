@@ -26,6 +26,7 @@ import com.example.demo.repository.modelo.Estudiante;
 import com.example.demo.service.IEstudianteService;
 import com.example.demo.service.IMateriaService;
 import com.example.demo.service.to.EstudianteTO;
+import com.example.demo.service.to.LightEstudianteTO;
 import com.example.demo.service.to.MateriaTO;
 
 //API es la creación de un proyecto con un fin específico
@@ -51,7 +52,7 @@ public class EstudianteControllerRestFul {
 	// AL PROYECTO
 
 	@GetMapping(path = "/{id}", produces = "application/json")
-	public ResponseEntity<EstudianteTO> search(@PathVariable() Integer id) {
+	public ResponseEntity<EstudianteTO> searchTO(@PathVariable() Integer id) {
 		// 240: Estudiante resource successfully found !
 		// También puedo enviar códigos estándar
 		// return
@@ -59,11 +60,33 @@ public class EstudianteControllerRestFul {
 		EstudianteTO estu =this.estudianteService.searchTO(id);
 		Link link = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(estu.getId()))
 				.withRel("materias");
-		Link link2 = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(estu.getId()))
+		estu.add(link);
+		
+		return ResponseEntity.status(240).body(estu);
+	}
+	@GetMapping(path = "/{id}/completo", produces = "application/json")
+	public ResponseEntity<EstudianteTO> search(@PathVariable() Integer id) {
+	
+		EstudianteTO estu =this.estudianteService.searchTO(id);
+		Link link = linkTo(methodOn(EstudianteControllerRestFul.class).searchTO(id))
 				.withSelfRel();
+		Link link2 = linkTo(methodOn(EstudianteControllerRestFul.class).searchLightTO(id)).withRel("LightEstudianteTO");
 		estu.add(link);
 		estu.add(link2);
-		return ResponseEntity.status(240).body(estu);
+		return ResponseEntity.status(HttpStatus.OK).body(estu);
+	}
+
+
+
+	@GetMapping(path = "/{id}/lightTO", produces = "application/json")
+	public ResponseEntity<LightEstudianteTO> searchLightTO(@PathVariable() Integer id) {
+	
+		LightEstudianteTO estu =this.estudianteService.searchLightTO(id);
+		Link link = linkTo(methodOn(EstudianteControllerRestFul.class).searchMateriasForId(estu.getId()))
+				.withRel("materias");
+		estu.add(link);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(estu);
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -125,4 +148,5 @@ public class EstudianteControllerRestFul {
 		List<MateriaTO> lista = this.iMateriaService.searchForStudentId(id);
 		return ResponseEntity.status(HttpStatus.OK).body(lista);
 	}
+
 }
