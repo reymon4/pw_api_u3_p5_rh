@@ -23,4 +23,9 @@ public interface IEstudianteService {
 	
 	public LightEstudianteTO searchLightTO(Integer id);	
 	public List<LightEstudianteTO> searchAllLightTO();
+	
+	//CRUD TO
+	public void saveTO(EstudianteTO estudiante);
+	public void updateTO(EstudianteTO estudiante);
+
 }

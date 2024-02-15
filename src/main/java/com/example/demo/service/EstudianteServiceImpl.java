@@ -79,6 +79,22 @@ public class EstudianteServiceImpl implements IEstudianteService {
 		return estudianteTO;
 	}
 
+	private Estudiante convertToTO(EstudianteTO estudiante) {
+		Estudiante estudianteTO = new Estudiante();
+		estudianteTO.setLastName(estudiante.getLastName());
+		estudianteTO.setName(estudiante.getName());
+		estudianteTO.setGender(estudiante.getGender());
+		estudianteTO.setId(estudiante.getId());
+		estudianteTO.setBirthdate(estudiante.getBirthdate());
+		estudianteTO.setAddress(estudiante.getAddress());
+		estudianteTO.setEmail(estudiante.getEmail());
+		estudianteTO.setPhoneNumber(estudiante.getPhoneNumber());
+		estudianteTO.setProgram(estudiante.getProgram());
+		estudianteTO.setSchool(estudiante.getSchool());
+		;
+		return estudianteTO;
+	}
+
 	@Override
 	public EstudianteTO searchTO(Integer id) {
 		// TODO Auto-generated method stub
@@ -111,4 +127,18 @@ public class EstudianteServiceImpl implements IEstudianteService {
 		// TODO Auto-generated method stub
 		return this.convertLightTO(this.estudianteRepository.select(id));
 	}
+	//Crud TO
+
+	@Override
+	public void saveTO(EstudianteTO estudiante) {
+		// TODO Auto-generated method stub
+		this.estudianteRepository.insert(this.convertToTO(estudiante));
+	}
+
+	@Override
+	public void updateTO(EstudianteTO estudiante) {
+		// TODO Auto-generated method stub
+		this.estudianteRepository.update(this.convertToTO(estudiante));
+	}
+	
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,6 +33,8 @@ import com.example.demo.service.to.MateriaTO;
 //API es la creación de un proyecto con un fin específico
 @RestController // Servicio
 @RequestMapping(path = "/estudiantes")
+@CrossOrigin
+//@CrossOrigin(value="http://localhost:8081")
 public class EstudianteControllerRestFul {
 	// Implementamos una API RestFul
 
@@ -90,14 +93,14 @@ public class EstudianteControllerRestFul {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void save(@RequestBody Estudiante estudiante) {
-		this.estudianteService.save(estudiante);
+	public void save(@RequestBody EstudianteTO estudiante) {
+		this.estudianteService.saveTO(estudiante);
 	}
 
 	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void update(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
+	public void update(@RequestBody EstudianteTO estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
-		this.estudianteService.update(estudiante);
+		this.estudianteService.updateTO(estudiante);
 	}
 
 	// Este se realiza mediante un identificador único
