@@ -97,19 +97,19 @@ public class EstudianteControllerRestFul {
 		this.estudianteService.saveTO(estudiante);
 	}
 
-	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void update(@RequestBody EstudianteTO estudiante, @PathVariable Integer id) {
+	@PutMapping(path = "/{id}")
+	public void update(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		estudiante.setId(id);
-		this.estudianteService.updateTO(estudiante);
+		this.estudianteService.update(estudiante);
 	}
 
 	// Este se realiza mediante un identificador único
-	@PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PatchMapping(path = "/{id}")
 	public void partialUpdate(@RequestBody Estudiante estudiante, @PathVariable Integer id) {
 		this.estudianteService.partialUpdate(estudiante.getLastName(), estudiante.getName(), id);
 	}
 
-	@DeleteMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(path = "/{id}")
 	public void delete(@PathVariable Integer id) {
 		this.estudianteService.delete(id);
 	}
