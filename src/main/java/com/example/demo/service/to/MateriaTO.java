@@ -4,14 +4,6 @@ package com.example.demo.service.to;
 
 import java.io.Serializable;
 
-import org.springframework.hateoas.RepresentationModel;
-
-import com.example.demo.repository.modelo.Estudiante;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 public class MateriaTO implements Serializable{
 	/**
 	 * 

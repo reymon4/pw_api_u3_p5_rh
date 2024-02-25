@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.springframework.hateoas.RepresentationModel;
-
-import com.example.demo.repository.modelo.Estudiante;
-
-import jakarta.persistence.Column;
 //Cuando el objeto va a manejar Hypermedia, se debe extender la clase de RepresentationModel
 //solo ponemos cuando es listas
 public class EstudianteTO extends RepresentationModel<EstudianteTO> implements Serializable{
