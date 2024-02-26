@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class AuthTokenFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private JwtUtils jwtutils;
+	private JwtUtils jwtUtils;
 
 	private static final Logger LOG = LoggerFactory.getLogger(JwtUtils.class);
 
@@ -28,39 +28,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			String jwt = this.paseJwt(request);
-			if (jwt != null && this.jwtutils.validateJwtToken(jwt))
-				;
-			// Vamos a obtener la autenticacion
-			String userName = this.jwtutils.getUserNameFromJwtToken(jwt);
+			String jwt = this.parseJwt(request);
+			if (jwt != null && this.jwtUtils.validateJwtToken(jwt)) {
+				// Genera una autenticación
+				String userName = this.jwtUtils.getUserNameFromJwtToken(jwt);
 
-			UsernamePasswordAuthenticationToken authentication =
+				// Authentication
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName,
+						null, new ArrayList<>());
+				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-					new UsernamePasswordAuthenticationToken(
-
-							userName,
-
-							null,
-
-							new ArrayList<>());
-
-			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			}
 		} catch (Exception e) {
-			LOG.error("ERRRRORRR", e);
+			LOG.error("Error", e);
 		}
 		filterChain.doFilter(request, response);
 	}
 
-	private String paseJwt(HttpServletRequest request) {
+	private String parseJwt(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
-		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+		if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer")) {
 			return headerAuth.substring(7, headerAuth.length());
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 }

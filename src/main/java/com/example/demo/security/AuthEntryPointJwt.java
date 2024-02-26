@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /* AuthEntryPointJwt: Clase que retorna un mensaje cuando la autenticacion no es válida.
  */
 @Component
-public class AuthEntryPointJwt implements AuthenticationEntryPoint {
+public class AuthEntryPointJwt implements AuthenticationEntryPoint{
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
